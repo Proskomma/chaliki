@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const {app, Menu, ipcMain} = require('electron');
+const {app, Menu, ipcMain} = require('electronite');
 
 const {
   createWindow,

@@ -1,4 +1,4 @@
-import {ipcRenderer} from 'electron';
+import {ipcRenderer} from 'electronite';
 
 /**
  * The console.log levels that will be intercepted.

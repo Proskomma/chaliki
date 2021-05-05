@@ -41,8 +41,8 @@ function createMainWindow() {
  */
 function createSplashWindow() {
   const windowOptions = {
-    width: 400,
-    height: 200,
+    width: 535,
+    height: 539,
     resizable: false,
     autoHideMenuBar: true,
     webPreferences: {

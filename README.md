@@ -1,8 +1,20 @@
-# react-app-electron-template
+# Chaliki
+
+This electron project template is bootstrapped with [React App Electron Template](https://github.com/da1nerd/react-app-electron-template). See below...
+
+## Quickstart
+
+```
+cd chaliki
+yarn install
+yarn start
+```
+
+## Documentation for react-app-electron-template
 
 This electron project template is bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Typescript
+### Typescript
 Typescript comes pre-enabled. Just rename a `.js` file to `.ts` and restart your development server.
 If a file contains [jsx](https://reactjs.org/docs/introducing-jsx.html) you must give it the file extension `.tsx`
 Also, if you start using Typescript, you'll see a new file `src/react-app-env.d.ts`. For an explanation of that file see [typescript and create-react-app .env](https://dev.to/louisgv/typescript-and-create-react-app-env-136e) 
@@ -10,7 +22,7 @@ Also, if you start using Typescript, you'll see a new file `src/react-app-env.d.
 > NOTE: Typescript is only supported for everything under `src/`.
 > The Electron main process under `electron/` must be in es5.
 
-## Electron Configuration
+### Electron Configuration
 
 This project has been configured to work with electron.
 
@@ -38,23 +50,23 @@ BROWSER=none
 
 That's the extent of the electron integration. The app does not need to be ejected or configured further to work.
 
-## Features
+### Features
 
 Beyond the standard create-react-app template are a few additional features.
 
-### Splash page
+#### Splash page
 
 A sample splash page is provided to give the user some semblance of progress while the app loads.
 You can easily customize it, or disable it if needed.
 
-### Log handler
+#### Log handler
 
 A lightweight logger has been included that hijacks `console` and `window.onerror`.
 All intercepted logs are passed to electron's main thread where they are recorded in a `console.log` file.
 Just continue logging to the console like always and they will be automatically saved for later reference.
 In order to keep things tidy the log file is truncated after it grows larger than 1mb.
 
-### Developer Extensions
+#### Developer Extensions
 
 > NOTE: The developer tools is currently disabled until I can figure out how to get it working with the latest version of electron.
 
@@ -63,7 +75,7 @@ is installed to improve your development experience.
 
 > NOTE: you may need to restart your application once before all the tools show up.
 
-### Component prototyping with [Storybook](https://storybook.js.org/)
+#### Component prototyping with [Storybook](https://storybook.js.org/)
 
 Prototyping components in an isolated environment is critical to well designed components. Not only does it save the headache of navigating all over the app just to see your updated component, but it also forces you to develop loosly coupled components.
 Building a collection of "stories" also makes it easier to do some simple acceptence testing.
@@ -72,16 +84,16 @@ Some sample stories are located in `src/stories/`.
 
 Details are in the scripts section below.
 
-## Available Scripts
+### Available Scripts
 
 In the project directory, you can run:
 
-### `yarn storybook`
+#### `yarn storybook`
 
 Runs the story book server so you can develop and preview UI components in isolation.
 See [Storybook](https://storybook.js.org/) for details and documentation.
 
-### `yarn start`
+#### `yarn start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -89,12 +101,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-### `yarn test`
+#### `yarn test`
 
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+#### `yarn build`
 
 Builds the app for production and places the compiled files int the `dist` folder.
 This process correctly bundles React in production mode and optimizes the build for the best performance.
@@ -104,7 +116,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn analyze`
+#### `yarn analyze`
 
 Analyzes the built JavaScript bundles using the sourcemaps.
 This helps you understand where code bloat is coming from.
@@ -114,7 +126,7 @@ yarn build
 yarn analyze
 ```
 
-## Learn More
+### Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
@@ -122,6 +134,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 To learn how to use Storybook, check out the [Storybook documentation](https://storybook.js.org/).
 
-### Advanced Configuration
+#### Advanced Configuration
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration

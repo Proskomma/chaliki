@@ -6,9 +6,13 @@
   "homepage": "./",
   "dependencies": {
     "@craco/craco": "^6.1.2",
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "^4.0.3"
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3",
+    "uw-proskomma": "^0.4.18"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",

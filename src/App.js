@@ -1,79 +1,33 @@
 import React, {useState} from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import ToolBar from '@material-ui/core/Toolbar';
 import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Container from '@material-ui/core/Container';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Divider from '@material-ui/core/Divider';
-
+import Typography from '@material-ui/core/Typography';
 import './App.css';
 
+import { pagesArray, pages } from './conf.js';
+
+import {UWProskomma} from 'uw-proskomma';
+const pk = new UWProskomma();
+
 const styles = theme => ({});
-
-const Data = props => {
-    return (
-        <Container>
-            <p>Data {Object.keys(props)}</p>
-        </Container>);
-}
-
-const Browse = props => {
-    return (
-        <Container>
-            <p>Browse</p>
-        </Container>);
-}
-
-const Search = props => {
-    return (
-        <Container>
-            <p>Search</p>
-        </Container>);
-}
-
-const Edit = props => {
-    return (
-        <Container>
-            <p>Edit</p>
-        </Container>);
-}
-
-const Alignment = props => {
-    return (
-        <Container>
-            <p>Alignment</p>
-        </Container>);
-}
-
-const Mapping = props => {
-    return (
-        <Container>
-            <p>Mapping</p>
-        </Container>);
-}
-
-const RawQuery = props => {
-    return (
-        <Container>
-            <p>Raw Query</p>
-        </Container>);
-}
-
-const About = props => {
-    return (
-        <Container>
-            <p>About</p>
-        </Container>);
-}
 
 const App = withStyles(styles)(props => {
     const {classes} = props;
     const [menuAnchor, setMenuAnchor] = useState(null);
+    const [pageTitle, setPageTitle] = useState('');
     const clearAnchor = () => setMenuAnchor(null);
+
+    const DynamicRouter = props => {
+        const page = pages[props.location.pathname.substring(1)] || pages.data;
+        setPageTitle(page.pageTitle);
+        return <page.pageClass pk={pk}/>;
+    }
 
     return (
         <div className={classes.root}>
@@ -91,47 +45,20 @@ const App = withStyles(styles)(props => {
                         open={Boolean(menuAnchor)}
                         onClose={clearAnchor}
                     >
-                        <MenuItem component="a" href="/data">Manage Data</MenuItem>
-                        <Divider/>
-                        <MenuItem component="a" href="/browse">Browse</MenuItem>
-                        <MenuItem component="a" href="/search">Search</MenuItem>
-                        <MenuItem component="a" href="/edit">Edit</MenuItem>
-                        <MenuItem component="a" href="/alignment">Word Alignment</MenuItem>
-                        <MenuItem component="a" href="/mapping">Verse Mapping</MenuItem>
-                        <Divider/>
-                        <MenuItem component="a" href="/raw">Raw Query</MenuItem>
-                        <Divider/>
-                        <MenuItem component="a" href="/about">About Chaliki</MenuItem>
+                        {pagesArray.map(
+                            p =>
+                                <MenuItem component="a" key={p.url} href={p.url}>{p.menuEntry}</MenuItem>
+                        )}
                     </Menu>
+                    <Typography variant="title">
+                        {pageTitle}
+                    </Typography>
                 </ToolBar>
             </AppBar>
             <Router>
-                <Switch>
-                    <Route path="/data">
-                        <Data/>
-                    </Route>
-                    <Route path="/browse">
-                        <Browse/>
-                    </Route>
-                    <Route path="/search">
-                        <Search/>
-                    </Route>
-                    <Route path="/edit">
-                        <Edit/>
-                    </Route>
-                    <Route path="/alignment">
-                        <Alignment/>
-                    </Route>
-                    <Route path="/mapping">
-                        <Mapping/>
-                    </Route>
-                    <Route path="/raw">
-                        <RawQuery/>
-                    </Route>
-                    <Route path="/">
-                        <About/>
-                    </Route>
-                </Switch>
+                <Route path={'/'}>
+                    {DynamicRouter}
+                </Route>
             </Router>
         </div>
     );

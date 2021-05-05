@@ -30,9 +30,6 @@ const Data = withStyles(styles)((props) => {
     }, [props.mutationCount]);
     return (
         <div className={classes.tabContent}>
-            <Typography variant="body2" className={classes.italicPara}>
-                Click in Window, then F12, to Toggle Dev Tools.
-            </Typography>
             {!result.data ? (
                 <Typography variant="h2" className={classes.loading}>
                     Loading...

@@ -6,6 +6,7 @@ This electron project template is bootstrapped with [React App Electron Template
 
 ```
 cd chaliki
+# unzip translations.zip into the data/ directory (ie 10 files directly under data/)
 yarn install
 yarn start
 ```

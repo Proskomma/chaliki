@@ -1,11 +1,69 @@
-import Container from "@material-ui/core/Container";
-import React from "react";
+import React from 'react';
 
-const Data = props => {
+import {withStyles} from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+
+import styles from '../../../global_styles';
+import DocSet from './DocSet';
+// import InspectQuery from "../components/InspectQuery";
+
+const Data = withStyles(styles)((props) => {
+    const {classes} = props;
+    const [result, setResult] = React.useState({});
+    const homeQuery =
+        '{' +
+        '  processor packageVersion nDocSets nDocuments\n' +
+        '  docSets {\n' +
+        '    id hasMapping\n' +
+        '    documents { id }\n' +
+        '  }\n' +
+        '}\n';
+    React.useEffect(() => {
+        const doQuery = async () => {
+            return await props.pk.gqlQuery(homeQuery);
+        };
+        doQuery().then((res) => {
+            setResult(res);
+        });
+    }, [props.mutationCount]);
     return (
-        <Container>
-            <p>Data {JSON.stringify(Object.values(props))}</p>
-        </Container>);
-}
+        <div className={classes.tabContent}>
+            <Typography variant="body2" className={classes.italicPara}>
+                Click in Window, then F12, to Toggle Dev Tools.
+            </Typography>
+            {!result.data ? (
+                <Typography variant="h2" className={classes.loading}>
+                    Loading...
+                </Typography>
+            ) : (
+                <>
+                    <Typography variant="body1" className={classes.docSetsSection}>
+                        {`Using ${result.data ? result.data.processor : ''} Version ${
+                            result.data ? result.data.packageVersion : ''
+                        }.`}
+                    </Typography>
+                    <div className={classes.docSetsSection}>
+                        <Typography variant="body1">
+                            {`${
+                                result.data ? result.data.nDocSets : '0'
+                            } docSet(s) containing ${
+                                result.data ? result.data.nDocuments : '0'
+                            } document(s)`}
+                        </Typography>
+                        <List>
+                            {result.data.docSets.map((ds, index) => (
+                                <ListItem key={index} button dense>
+                                    <DocSet key={ds.id} state={props.state} docSet={ds}/>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </div>
+                </>
+            )}
+        </div>
+    );
+});
 
 export default Data;

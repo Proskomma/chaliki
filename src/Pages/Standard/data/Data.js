@@ -14,7 +14,7 @@ const Data = withStyles(styles)((props) => {
     const [result, setResult] = React.useState({});
     const homeQuery =
         '{' +
-        '  processor packageVersion nDocSets nDocuments\n' +
+        '  nDocSets nDocuments\n' +
         '  docSets {\n' +
         '    id hasMapping\n' +
         '    documents { id }\n' +
@@ -36,11 +36,6 @@ const Data = withStyles(styles)((props) => {
                 </Typography>
             ) : (
                 <>
-                    <Typography variant="body1" className={classes.docSetsSection}>
-                        {`Using ${result.data ? result.data.processor : ''} Version ${
-                            result.data ? result.data.packageVersion : ''
-                        }.`}
-                    </Typography>
                     <div className={classes.docSetsSection}>
                         <Typography variant="body1">
                             {`${

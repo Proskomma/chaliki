@@ -10,12 +10,10 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
+import {UWProskomma} from 'uw-proskomma';
 import './App.css';
 
 import { pagesArray, pages } from './conf.js';
-
-import {UWProskomma} from 'uw-proskomma';
-const pk = new UWProskomma();
 
 const mappingQueries = [];
 const translationSources = [
@@ -42,6 +40,7 @@ const styles = theme => ({});
 
 const App = withStyles(styles)(props => {
     const {classes} = props;
+    const [pk, setPk] = useState(new UWProskomma());
     const [menuAnchor, setMenuAnchor] = useState(null);
     const [pageTitle, setPageTitle] = useState('');
     const clearAnchor = () => setMenuAnchor(null);

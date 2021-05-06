@@ -15,6 +15,7 @@ import './App.css';
 
 import { pagesArray, pages } from './conf.js';
 
+const pk = new UWProskomma();
 const mappingQueries = [];
 const translationSources = [
     './data/unfoldingWord_en_ult_pkserialized.json',
@@ -40,7 +41,6 @@ const styles = theme => ({});
 
 const App = withStyles(styles)(props => {
     const {classes} = props;
-    const [pk, setPk] = useState(new UWProskomma());
     const [menuAnchor, setMenuAnchor] = useState(null);
     const [pageTitle, setPageTitle] = useState('');
     const clearAnchor = () => setMenuAnchor(null);

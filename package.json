@@ -1,9 +1,14 @@
 {
-  "name": "react-app-electron-template",
+  "name": "chaliki",
   "version": "0.1.0",
-  "private": true,
+  "description": "An Electron/Graphite/React/Proskomma Template",
   "main": "main.js",
-  "homepage": "./",
+  "homepage": "https://github.com/Proskomma/chaliki",
+  "author": "Mark Howe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Proskomma/chaliki/issues"
+  },
   "dependencies": {
     "@craco/craco": "^6.1.2",
     "@material-ui/core": "^4.11.4",

@@ -5,13 +5,14 @@ import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import styles from '../../../global_styles';
+const packageJson = require('../../../../package.json');
 
 const About = withStyles(styles)((props) => {
     const {classes} = props;
     const [result, setResult] = React.useState({});
     const homeQuery =
         '{' +
-        '  id processor packageVersion' +
+        '  processor packageVersion' +
         '}\n';
     React.useEffect(() => {
         const doQuery = async () => {
@@ -21,21 +22,32 @@ const About = withStyles(styles)((props) => {
             setResult(res);
         });
     }, [props.mutationCount]);
-    return (
-        <div className={classes.tabContent}>
-            {!result.data ? (
-                <Typography variant="h2" className={classes.loading}>
-                    Loading...
-                </Typography>
-            ) : (
+    if (result.data) {
+        const name = packageJson.name.slice(0, 1).toUpperCase() + packageJson.name.slice(1);
+        return (
+            <div className={classes.tabContent}>
                 <>
+                    <Typography variant="h5" className={classes.docSetsSection}>
+                        {`${name} v${packageJson.version}`}
+                    </Typography>
                     <Typography variant="body1" className={classes.docSetsSection}>
-                        {`Using ${result.data.processor} Version ${result.data.packageVersion} (ID=${result.data.id}).`}
+                        {packageJson.description}
+                    </Typography>
+                    <Typography variant="body2" className={classes.docSetsSection}>
+                        {packageJson.homepage}
+                    </Typography>
+                    <Typography variant="body2" className={classes.docSetsSection}>
+                        {`Using ${result.data.processor} v${result.data.packageVersion}`}
+                    </Typography>
+                    <Typography variant="body2" className={classes.docSetsSection}>
+                        {`© ${packageJson.author}, ${packageJson.license} license`}
                     </Typography>
                 </>
-            )}
-        </div>
-    );
+            </div>
+        );
+    } else {
+        return(<div>Loading</div>);
+    }
 });
 
 export default About;

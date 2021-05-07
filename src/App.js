@@ -1,7 +1,7 @@
 import fse from 'fs-extra';
 import path from "path";
 import React, {useState, useEffect} from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {HashRouter, Route} from 'react-router-dom';
 import ToolBar from '@material-ui/core/Toolbar';
 import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -87,7 +87,7 @@ const App = withStyles(styles)(props => {
                     >
                         {pagesArray.map(
                             p =>
-                                <MenuItem component="a" key={p.url} href={p.url}>{p.menuEntry}</MenuItem>
+                                <MenuItem component="a" key={p.url} href={`#${p.url}`}>{p.menuEntry}</MenuItem>
                         )}
                     </Menu>
                     <Typography variant="title">
@@ -95,11 +95,11 @@ const App = withStyles(styles)(props => {
                     </Typography>
                 </ToolBar>
             </AppBar>
-            <Router>
+            <HashRouter>
                 <Route path={'/'}>
                     {DynamicRouter}
                 </Route>
-            </Router>
+            </HashRouter>
         </div>
     );
 });

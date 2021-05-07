@@ -87,7 +87,7 @@ const App = withStyles(styles)(props => {
                     >
                         {pagesArray.map(
                             p =>
-                                <MenuItem component="a" key={p.url} href={`#${p.url}`}>{p.menuEntry}</MenuItem>
+                                <MenuItem component="a" key={p.url} href={`#${p.url}`} onClick={clearAnchor}>{p.menuEntry}</MenuItem>
                         )}
                     </Menu>
                     <Typography variant="title">

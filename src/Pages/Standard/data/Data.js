@@ -12,22 +12,22 @@ import DocSet from './DocSet';
 const Data = withStyles(styles)((props) => {
     const {classes} = props;
     const [result, setResult] = React.useState({});
-    const homeQuery =
-        '{' +
-        '  nDocSets nDocuments\n' +
-        '  docSets {\n' +
-        '    id hasMapping\n' +
-        '    documents { id }\n' +
-        '  }\n' +
-        '}\n';
     React.useEffect(() => {
+        const homeQuery =
+            '{' +
+            '  nDocSets nDocuments\n' +
+            '  docSets {\n' +
+            '    id hasMapping\n' +
+            '    documents { id }\n' +
+            '  }\n' +
+            '}\n';
         const doQuery = async () => {
             return await props.pk.gqlQuery(homeQuery);
         };
         doQuery().then((res) => {
             setResult(res);
         });
-    }, [props.mutationCount]);
+    }, [props.pk]);
     return (
         <div className={classes.tabContent}>
             {!result.data ? (

@@ -1,4 +1,3 @@
-import Container from "@material-ui/core/Container";
 import React from 'react';
 
 import {withStyles} from '@material-ui/core/styles';
@@ -10,18 +9,18 @@ const packageJson = require('../../../../package.json');
 const About = withStyles(styles)((props) => {
     const {classes} = props;
     const [result, setResult] = React.useState({});
-    const homeQuery =
-        '{' +
-        '  processor packageVersion' +
-        '}\n';
     React.useEffect(() => {
+        const aboutQuery =
+            '{' +
+            '  processor packageVersion' +
+            '}\n';
         const doQuery = async () => {
-            return await props.pk.gqlQuery(homeQuery);
+            return await props.pk.gqlQuery(aboutQuery);
         };
         doQuery().then((res) => {
             setResult(res);
         });
-    }, [props.mutationCount]);
+    }, [props.pk]);
     if (result.data) {
         const name = packageJson.name.slice(0, 1).toUpperCase() + packageJson.name.slice(1);
         return (

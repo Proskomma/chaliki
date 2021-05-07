@@ -45,7 +45,11 @@ const About = withStyles(styles)((props) => {
             </div>
         );
     } else {
-        return(<div>Loading</div>);
+        return(
+            <Typography variant="h2" className={classes.loading}>
+                Loading...
+            </Typography>
+        );
     }
 });
 

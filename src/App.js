@@ -1,7 +1,6 @@
 import fse from 'fs-extra';
 import path from "path";
-import React, {useState, useEffect} from 'react';
-import {HashRouter, Route} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
 import ToolBar from '@material-ui/core/Toolbar';
 import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -13,9 +12,10 @@ import Typography from '@material-ui/core/Typography';
 import {UWProskomma} from 'uw-proskomma';
 import './App.css';
 
-import { pagesArray, pages } from './conf.js';
+import {pages, pagesArray, stateSpec} from './conf.js';
 
 const pk = new UWProskomma();
+const sharedState = {app: {url: 'about'}};
 const mappingQueries = [];
 const translationSources = [
     './data/unfoldingWord_en_ult_pkserialized.json',
@@ -42,13 +42,19 @@ const styles = theme => ({});
 const App = withStyles(styles)(props => {
     const {classes} = props;
     const [menuAnchor, setMenuAnchor] = useState(null);
-    const [pageTitle, setPageTitle] = useState('');
+        [sharedState.app.url, sharedState.app.setUrl] = useState('about');
+        for (const [sName, sStates] of Object.entries(stateSpec)) {
+            sharedState[sName] = {};
+            for (const [stateName, stateInit] of sStates) {
+                [sharedState[sName][stateName], sharedState[sName][`set${stateName.slice(0, 1).toUpperCase() + stateName.slice(1)}`]] = useState(stateInit);
+            }
+        };
+
     const clearAnchor = () => setMenuAnchor(null);
 
-    const DynamicRouter = props => {
-        const page = pages[props.location.pathname.substring(1)] || pages.data;
-        setPageTitle(page.pageTitle);
-        return <page.pageClass pk={pk}/>;
+    const pageBody = () => {
+        const page = pages[sharedState.app.url] || pages.data;
+        return <page.pageClass pk={pk} shared={sharedState}/>;
     }
 
     useEffect(() => {
@@ -87,19 +93,26 @@ const App = withStyles(styles)(props => {
                     >
                         {pagesArray.map(
                             p =>
-                                <MenuItem component="a" key={p.url} href={`#${p.url}`} onClick={clearAnchor}>{p.menuEntry}</MenuItem>
+                                <MenuItem
+                                    component="div"
+                                    key={p.url}
+                                    onClick={
+                                        () => {
+                                            sharedState.app.setUrl(p.url);
+                                            clearAnchor();
+                                        }
+                                    }
+                                >
+                                    {p.menuEntry}
+                                </MenuItem>
                         )}
                     </Menu>
                     <Typography variant="title">
-                        {pageTitle}
+                        {pages[sharedState.app.url || 'about'].pageTitle}
                     </Typography>
                 </ToolBar>
             </AppBar>
-            <HashRouter>
-                <Route path={'/'}>
-                    {DynamicRouter}
-                </Route>
-            </HashRouter>
+            <div>{pageBody()}</div>
         </div>
     );
 });

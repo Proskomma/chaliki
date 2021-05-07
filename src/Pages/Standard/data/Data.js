@@ -7,20 +7,20 @@ import ListItem from '@material-ui/core/ListItem';
 
 import styles from '../../../global_styles';
 import DocSet from './DocSet';
-// import InspectQuery from "../components/InspectQuery";
+import InspectQuery from "../../../sharedComponents/InspectQuery";
 
 const Data = withStyles(styles)((props) => {
     const {classes} = props;
     const [result, setResult] = React.useState({});
+    const homeQuery =
+        '{' +
+        '  nDocSets nDocuments\n' +
+        '  docSets {\n' +
+        '    id hasMapping\n' +
+        '    documents { id }\n' +
+        '  }\n' +
+        '}\n';
     React.useEffect(() => {
-        const homeQuery =
-            '{' +
-            '  nDocSets nDocuments\n' +
-            '  docSets {\n' +
-            '    id hasMapping\n' +
-            '    documents { id }\n' +
-            '  }\n' +
-            '}\n';
         const doQuery = async () => {
             return await props.pk.gqlQuery(homeQuery);
         };
@@ -37,6 +37,7 @@ const Data = withStyles(styles)((props) => {
             ) : (
                 <>
                     <div className={classes.docSetsSection}>
+                        <InspectQuery shared={props.shared} query={homeQuery} history={props.history}/>
                         <Typography variant="body1">
                             {`${
                                 result.data ? result.data.nDocSets : '0'

@@ -6,6 +6,9 @@ const conf = {
   pageTitle: "Data Sources",
   description: "View, add and remove docSets",
   pageClass: Data,
+  state: [
+      ['docSets', {}],
+  ],
 };
 
 export default conf;

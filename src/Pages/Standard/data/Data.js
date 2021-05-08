@@ -2,6 +2,7 @@ import React from 'react';
 
 import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 
@@ -10,34 +11,37 @@ import DocSet from './DocSet';
 import InspectQuery from "../../../sharedComponents/InspectQuery";
 
 const Data = withStyles(styles)((props) => {
-    const {classes} = props;
-    const [result, setResult] = React.useState({});
-    const homeQuery =
-        '{' +
-        '  nDocSets nDocuments\n' +
-        '  docSets {\n' +
-        '    id hasMapping\n' +
-        '    documents { id }\n' +
-        '  }\n' +
-        '}\n';
-    React.useEffect(() => {
-        const doQuery = async () => {
-            return await props.pk.gqlQuery(homeQuery);
-        };
-        doQuery().then((res) => {
-            setResult(res);
-        });
-    }, [props.pk]);
-    return (
-        <div className={classes.tabContent}>
-            {!result.data ? (
-                <Typography variant="h2" className={classes.loading}>
-                    Loading...
-                </Typography>
-            ) : (
-                <>
-                    <div className={classes.docSetsSection}>
-                        <InspectQuery shared={props.shared} query={homeQuery} history={props.history}/>
+        const {classes} = props;
+        const [result, setResult] = React.useState('');
+        const homeQuery =
+            '{' +
+            '  nDocSets nDocuments\n' +
+            '  docSets {\n' +
+            '    id hasMapping\n' +
+            '    documents { id }\n' +
+            '  }\n' +
+            '}\n';
+        React.useEffect(() => {
+            const doQuery = async () => {
+                return await props.pk.gqlQuery(homeQuery);
+            };
+            doQuery().then((res) => {
+                setResult(res);
+                if (res.data) {
+                    props.data.setDocSets(res.data.docSets);
+                }
+            });
+        }, [props.pk]);
+        return (
+            <>
+                <div className={classes.toolbarMargin}/>
+                {!result.data ? (
+                    <Typography variant="h2" className={classes.loading}>
+                        Loading...
+                    </Typography>
+                ) : (
+                    <Container className={classes.page}>
+                        <InspectQuery app={props.app} raw={props.raw} query={homeQuery}/>
                         <Typography variant="body1">
                             {`${
                                 result.data ? result.data.nDocSets : '0'
@@ -52,11 +56,11 @@ const Data = withStyles(styles)((props) => {
                                 </ListItem>
                             ))}
                         </List>
-                    </div>
-                </>
-            )}
-        </div>
-    );
-});
+                    </Container>
+                )}
+            </>
+        );
+    }
+);
 
 export default Data;

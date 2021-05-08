@@ -13,8 +13,8 @@ const InspectQuery = withStyles(styles)((props) => {
             variant="contained"
             size="small"
             onClick={() => {
-                props.shared.raw.setQuery(props.query);
-                props.shared.app.setUrl('raw');
+                props.raw.setQuery(props.query);
+                props.app.setUrl('raw');
             }}
         >
             Inspect Query

@@ -3,6 +3,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import Container from '@material-ui/core/Container';
 
 import styles from '../../../global_styles';
 
@@ -20,28 +21,28 @@ const RawQuery = withStyles(styles)((props) => {
         const doQuery = async () => {
             const now = Date.now();
             setQueryTime(-1);
-            const res = await props.pk.gqlQuery(props.shared.raw.query);
+            const res = await props.pk.gqlQuery(props.raw.query);
             setResult(res);
             setQueryTime(Date.now() - now);
-            // console.log(query, res);
         };
         doQuery();
-    }, [props.shared.raw.query]);
+    }, [props.raw.query]);
     return (
-        <div className={classes.tabContent}>
+            <>
+                <div className={classes.toolbarMargin}/>
             {!result ? (
                 <Typography variant="h2" className={classes.loading}>
                     No Result
                 </Typography>
             ) : (
-                <>
+                <Container className={classes.page}>
                     <TextareaAutosize
                         className={classes.pkQueryTextarea}
                         rowsMin="5"
                         rowsMax="25"
                         display="block"
-                        onChange={async (event) => handleChange(event, props.shared.raw.setQuery)}
-                        value={props.shared.raw.query}
+                        onChange={async (event) => handleChange(event, props.raw.setQuery)}
+                        value={props.raw.query}
                     />
                     <div>
                         {queryTime >= 0 ? (
@@ -55,9 +56,9 @@ const RawQuery = withStyles(styles)((props) => {
                     <Typography variant="body2" className={classes.pre}>
                         {JSON.stringify(result, null, 4)}
                     </Typography>
-                </>
+                </Container>
             )}
-        </div>
+        </>
     );
 });
 

@@ -7,7 +7,7 @@ const conf = {
       description: "Run GraphQL Queries against Proskomma",
       pageClass: RawQuery,
       state: [
-          ['query', ''],
+          ['query', '{ id }'],
       ],
     };
 

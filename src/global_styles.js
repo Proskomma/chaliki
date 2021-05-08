@@ -15,9 +15,6 @@ const styles = (theme) => ({
 
     flexDirection:"column",
   },
-  tabContent: {
-    padding: theme.spacing(2),
-  },
   footer: {
     padding: "5px",
     display: "block",
@@ -54,11 +51,12 @@ const styles = (theme) => ({
   },
   loading: {
     paddingLeft: '50px',
-    paddingTop: '50px',
+    paddingTop: '10px',
     paddingBottom: '50px',
   },
-  docSetsSection: {
-    marginTop: '20px',
+  page: {
+    paddingTop: "10px",
+    paddingBottom: "10px",
   },
   browseModeButton: {
     marginLeft: "1em",

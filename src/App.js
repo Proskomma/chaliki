@@ -54,7 +54,7 @@ const App = withStyles(styles)(props => {
 
     const pageBody = () => {
         const page = pages[sharedState.app.url] || pages.data;
-        return <page.pageClass pk={pk} shared={sharedState}/>;
+        return <page.pageClass pk={pk} {...sharedState}/>;
     }
 
     useEffect(() => {
@@ -77,7 +77,7 @@ const App = withStyles(styles)(props => {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <ToolBar>
                     <IconButton
                         color="inherit"

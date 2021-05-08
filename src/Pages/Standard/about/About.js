@@ -5,17 +5,18 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
 import styles from '../../../global_styles';
+import InspectQuery from "../../../sharedComponents/InspectQuery";
 
 const packageJson = require('../../../../package.json');
 
 const About = withStyles(styles)((props) => {
     const {classes} = props;
     const [result, setResult] = React.useState({});
+    const aboutQuery =
+        '{' +
+        '  processor packageVersion' +
+        '}\n';
     React.useEffect(() => {
-        const aboutQuery =
-            '{' +
-            '  processor packageVersion' +
-            '}\n';
         const doQuery = async () => {
             return await props.pk.gqlQuery(aboutQuery);
         };
@@ -33,6 +34,7 @@ const About = withStyles(styles)((props) => {
                 </Typography>
             ) : (
                 <Container className={classes.page}>
+                    <InspectQuery app={props.app} raw={props.raw} query={aboutQuery}/>
                     <>
                         <Typography variant="h5" className={classes.docSetsSection}>
                             {`${name} v${packageJson.version}`}

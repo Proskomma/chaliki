@@ -42,7 +42,8 @@ const styles = theme => ({});
 const App = withStyles(styles)(props => {
     const {classes} = props;
     const [menuAnchor, setMenuAnchor] = useState(null);
-        [sharedState.app.url, sharedState.app.setUrl] = useState('about');
+    [sharedState.app.url, sharedState.app.setUrl] = useState('data');
+    [sharedState.app.docSets, sharedState.app.setDocSets] = useState([]);
         for (const [sName, sStates] of Object.entries(stateSpec)) {
             sharedState[sName] = {};
             for (const [stateName, stateInit] of sStates) {

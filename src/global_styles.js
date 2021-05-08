@@ -103,10 +103,14 @@ const styles = (theme) => ({
     fontWeight: 'bold',
   },
   searchTerms: {
-    width: '50%',
+    width: '90%'
   },
   searchButton: {
     float: 'right',
+  },
+  searchResults: {},
+  expiredSearchResults: {
+    color: "#999",
   },
   usfm_p: {
     marginTop: "2px",
@@ -177,6 +181,16 @@ const styles = (theme) => ({
   },
   submitBlockEditButton: {
     float: "right",
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  requireInput: {
+    color: '#D00',
   },
 });
 

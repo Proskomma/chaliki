@@ -28,7 +28,7 @@ const Data = withStyles(styles)((props) => {
             doQuery().then((res) => {
                 setResult(res);
                 if (res.data) {
-                    props.data.setDocSets(res.data.docSets);
+                    props.app.setDocSets(res.data.docSets);
                 }
             });
         }, [props.pk]);

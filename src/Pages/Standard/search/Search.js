@@ -125,7 +125,6 @@ const Search = withStyles(styles)((props) => {
     React.useEffect(() => {
         const doQuery = async () => {
             setFrom(0);
-            const t = Date.now();
             const res = await props.pk.gqlQuery(query);
             // console.log(`'${searchString}' (${exactMatch ? 'Exact' : 'Regex'}, ${allChars ? 'All' : 'Any'}): ${Date.now() - t} msec`);
             setResult(res);
@@ -200,7 +199,7 @@ const Search = withStyles(styles)((props) => {
                         app={props.app}
                     />
                     {!selectedDocSet && (
-                        <Typography variant="h5" display="inline" className={classes.requireInput}>Please select a docSet</Typography>
+                        <Typography variant="h5" display="inline" className={classes.requireInput}>Please Select a DocSet</Typography>
                     )}
                     <InspectQuery app={props.app} raw={props.raw} query={query}/>
                 </div>

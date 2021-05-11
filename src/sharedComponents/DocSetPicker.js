@@ -22,10 +22,6 @@ const DocSetPicker = withStyles(styles) ((props) => {
                     labelId="docset-picker-label"
                     value={props.selectedDocSet}
                     onChange={changeSelectedDocSet}
-                    inputProps={{
-                        name: 'id',
-                        id: 'id'
-                    }}
                 >
                     {props.app.docSets.map((ds) => (
                         <MenuItem

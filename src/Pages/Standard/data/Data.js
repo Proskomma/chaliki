@@ -18,7 +18,9 @@ const Data = withStyles(styles)((props) => {
             '  nDocSets nDocuments\n' +
             '  docSets {\n' +
             '    id hasMapping\n' +
-            '    documents { id }\n' +
+            '    documents { id' +
+            '    bookCode: header(id:"bookCode")' +
+            '    name: header(id:"toc2")}\n' +
             '  }\n' +
             '}\n';
         React.useEffect(() => {
@@ -31,7 +33,7 @@ const Data = withStyles(styles)((props) => {
                     props.app.setDocSets(res.data.docSets);
                 }
             });
-        }, [props.pk]);
+        }, [props.pk, props.app.nMutations]);
         return (
             <>
                 <div className={classes.toolbarMargin}/>

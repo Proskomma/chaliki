@@ -44,12 +44,13 @@ const App = withStyles(styles)(props => {
     const [menuAnchor, setMenuAnchor] = useState(null);
     [sharedState.app.url, sharedState.app.setUrl] = useState('data');
     [sharedState.app.docSets, sharedState.app.setDocSets] = useState([]);
-        for (const [sName, sStates] of Object.entries(stateSpec)) {
-            sharedState[sName] = {};
-            for (const [stateName, stateInit] of sStates) {
-                [sharedState[sName][stateName], sharedState[sName][`set${stateName.slice(0, 1).toUpperCase() + stateName.slice(1)}`]] = useState(stateInit);
-            }
-        };
+    [sharedState.app.nMutations, sharedState.app.setNMutations] = useState(0);
+    for (const [sName, sStates] of Object.entries(stateSpec)) {
+        sharedState[sName] = {};
+        for (const [stateName, stateInit] of sStates) {
+            [sharedState[sName][stateName], sharedState[sName][`set${stateName.slice(0, 1).toUpperCase() + stateName.slice(1)}`]] = useState(stateInit);
+        }
+    }
 
     const clearAnchor = () => setMenuAnchor(null);
 
@@ -59,9 +60,16 @@ const App = withStyles(styles)(props => {
     }
 
     useEffect(() => {
+        const loadTranslation = async (translationSource, count) => {
+            await pk.loadSuccinctDocSet(fse.readJsonSync(translationSource));
+            sharedState.app.setNMutations(count);
+            return true;
+        }
         const loadTranslations = async () => {
+            let count = 1;
             for (const translationSource of translationSources) {
-                pk.loadSuccinctDocSet(fse.readJsonSync(translationSource));
+                await loadTranslation(translationSource, count);
+                count++;
             }
         };
         const loadMappings = async () => {
@@ -69,11 +77,14 @@ const App = withStyles(styles)(props => {
                 await pk.gqlQuery(query);
             }
         };
-        loadTranslations().then(() =>
-            loadMappings().then(() => {
-                // setMutationCount(1);
-            })
-        );
+        loadTranslations()
+            .then(
+                () =>
+                    loadMappings()
+                        .then(
+                            () => {}
+                        )
+            );
     }, []);
 
     return (

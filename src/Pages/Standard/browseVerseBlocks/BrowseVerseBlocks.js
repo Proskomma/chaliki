@@ -9,13 +9,15 @@ import Container from "@material-ui/core/Container";
 import DocSetPicker from "../../../sharedComponents/DocSetPicker";
 import BookPicker from "../../../sharedComponents/BookPicker";
 import InspectQuery from "../../../sharedComponents/InspectQuery";
-import { renderVersesItems } from '../../../lib/render_items';
+import {renderVersesItems} from '../../../lib/render_items';
+import VerseNavigation from "../../../sharedComponents/VerseNavigation";
 
-const BrowseChapter = withStyles(styles)((props) => {
+const BrowseVerseBlocks = withStyles(styles)((props) => {
     const {classes} = props;
     const [selectedDocSet, setSelectedDocSet] = React.useState(null);
     const [selectedBook, setSelectedBook] = React.useState(null);
     const [selectedChapter, setSelectedChapter] = React.useState(null);
+    const [selectedVerse, setSelectedVerse] = React.useState(null);
     const [result, setResult] = React.useState({});
     const [query, setQuery] = React.useState('');
     const chapterQueryTemplate =
@@ -24,14 +26,16 @@ const BrowseChapter = withStyles(styles)((props) => {
         '    document(bookCode: "%bookCode%") {\n' +
         '      title: header(id: "toc2")\n' +
         '      mainSequence {\n' +
-        '         blocks(withScriptureCV: "%chapter%") {\n' +
+        '         blocks(withScriptureCV: "%chapter%:%verse%") {\n' +
         '            bs { payload }\n' +
         '            items { type subType payload }\n' +
         '         }\n' +
         '      }\n' +
-        '      nav: cvNavigation(chapter:"%chapter%" verse: "1") {\n' +
+        '      nav: cvNavigation(chapter:"%chapter%" verse: "%verse%") {\n' +
         '        previousChapter\n' +
         '        nextChapter\n' +
+        '        previousVerse { chapter verse }\n' +
+        '        nextVerse { chapter verse }\n' +
         '      }\n' +
         '    }\n' +
         '  }\n' +
@@ -44,6 +48,7 @@ const BrowseChapter = withStyles(styles)((props) => {
                     .replace(/%docSetId%/g, selectedDocSet)
                     .replace(/%bookCode%/g, selectedBook)
                     .replace(/%chapter%/g, selectedChapter)
+                    .replace(/%verse%/g, selectedVerse)
                 setQuery(browseQuery);
                 const res = await props.pk.gqlQuery(browseQuery);
                 setResult(res);
@@ -54,6 +59,7 @@ const BrowseChapter = withStyles(styles)((props) => {
         selectedDocSet,
         selectedBook,
         selectedChapter,
+        selectedVerse,
     ]);
 
     React.useEffect(() => {
@@ -65,6 +71,7 @@ const BrowseChapter = withStyles(styles)((props) => {
                     .bookCode
             );
             setSelectedChapter(1);
+            setSelectedVerse(1);
         }
     }, [selectedDocSet]);
 
@@ -93,41 +100,62 @@ const BrowseChapter = withStyles(styles)((props) => {
                 <div>
                     {
                         'data' in result && 'docSet' in result.data && 'document' in result.data.docSet && result.data.docSet.document ?
-                            <ChapterNavigation
-                                setSelectedChapter={setSelectedChapter}
-                                direction="previous"
-                                destination={result.data.docSet.document.nav.previousChapter}
-                            /> : ''
+                            <>
+                                <ChapterNavigation
+                                    setSelectedChapter={setSelectedChapter}
+                                    setSelectedVerse={setSelectedVerse}
+                                    direction="previous"
+                                    destination={result.data.docSet.document.nav.previousChapter}
+                                />
+                                <VerseNavigation
+                                    setSelectedChapter={setSelectedChapter}
+                                    setSelectedVerse={setSelectedVerse}
+                                    direction="previous"
+                                    destination={result.data.docSet.document.nav.previousVerse}
+                                />
+                            </> : ''
                     }
                     <Typography variant="body1" display="inline" className={classes.browseNavigationText}>
-                        {selectedChapter || '-'}
+                        {`${selectedChapter || '-'}:${selectedVerse || '-'}`}
                     </Typography>
                     {
                         'data' in result && 'docSet' in result.data && 'document' in result.data.docSet && result.data.docSet.document ?
-                            <ChapterNavigation
-                                setSelectedChapter={setSelectedChapter}
-                                direction="next"
-                                destination={result.data.docSet.document.nav.nextChapter}
-                            /> : ''
+                            <>
+                                <VerseNavigation
+                                    setSelectedChapter={setSelectedChapter}
+                                    setSelectedVerse={setSelectedVerse}
+                                    direction="next"
+                                    destination={result.data.docSet.document.nav.nextVerse}
+                                />
+                                <ChapterNavigation
+                                    setSelectedChapter={setSelectedChapter}
+                                    setSelectedVerse={setSelectedVerse}
+                                    direction="next"
+                                    destination={result.data.docSet.document.nav.nextChapter}
+                                />
+                            </> : ''
                     }
                 </div>
                 {
                     'data' in result && 'docSet' in result.data && 'document' in result.data.docSet && result.data.docSet.document ?
                         [...result.data.docSet.document.mainSequence.blocks.entries()].map(
-                    b => <Typography key={b[0]} variant="body1" className={classes[`usfm_${b[1].bs.payload.split('/')[1]}`]}>
-                {
-                    renderVersesItems(
-                    b[1].items,
-                    )
-                }
-                    </Typography>
-                    ) : (
-                        <Typography variant="body1">No Results</Typography>
-                    )
+                            b => <Typography key={b[0]} variant="body1"
+                                             className={classes[`usfm_${b[1].bs.payload.split('/')[1]}`]}>
+                                {
+                                    renderVersesItems(
+                                        b[1].items,
+                                        false,
+                                        selectedVerse,
+                                    )
+                                }
+                            </Typography>
+                        ) : (
+                            <Typography variant="body1">No Results</Typography>
+                        )
                 }
             </Container>
         </>
     );
 });
 
-export default BrowseChapter;
+export default BrowseVerseBlocks;

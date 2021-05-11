@@ -1,4 +1,4 @@
-const renderVersesItems = (items, renderChapters) =>
+const renderVersesItems = (items, renderChapters, currentVerse) =>
     [...items.entries()]
         .filter(
             (i) =>
@@ -12,6 +12,10 @@ const renderVersesItems = (items, renderChapters) =>
                     [
                         <b
                             key={i[0]}
+                            style={{
+                                color: currentVerse && i[1].payload.split('/')[1] === currentVerse.toString() ? '#A00' : '#000',
+                                backgroundColor: currentVerse && i[1].payload.split('/')[1] === currentVerse.toString() ? '#FF0' : 'inherit'
+                            }}
                         >
                             {i[1].payload.split('/')[1]}
                         </b>,

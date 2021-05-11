@@ -2,11 +2,11 @@ import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import styles from '../../../global_styles';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import styles from '../global_styles';
 
-const BrowseVerseNavigation = withStyles(styles) (
+const VerseNavigation = withStyles(styles) (
   (props) => {
   return (
     <IconButton
@@ -17,9 +17,9 @@ const BrowseVerseNavigation = withStyles(styles) (
         props.setSelectedVerse(props.destination.verse);
       }}
     >
-      {props.direction === 'previous' ? <ArrowBackIcon/> : <ArrowForwardIcon/>}
+      {props.direction === 'previous' ? <ArrowLeftIcon fontSize="large" /> : <ArrowRightIcon fontSize="large"/>}
     </IconButton>
   );
 });
 
-export default BrowseVerseNavigation;
+export default VerseNavigation;

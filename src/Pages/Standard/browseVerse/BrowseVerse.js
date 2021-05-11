@@ -4,11 +4,12 @@ import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import styles from '../../../global_styles';
-import BrowseVerseNavigation from './BrowseVerseNavigation';
+import VerseNavigation from '../../../sharedComponents/VerseNavigation';
 import Container from "@material-ui/core/Container";
 import DocSetPicker from "../../../sharedComponents/DocSetPicker";
 import BookPicker from "../../../sharedComponents/BookPicker";
 import InspectQuery from "../../../sharedComponents/InspectQuery";
+import ChapterNavigation from "../../../sharedComponents/ChapterNavigation";
 
 const BrowseVerse = withStyles(styles)((props) => {
     const {classes} = props;
@@ -27,6 +28,8 @@ const BrowseVerse = withStyles(styles)((props) => {
         '      nav: cvNavigation(chapter:"%chapter%" verse: "%verse%") {\n' +
         '        previousVerse { chapter verse }\n' +
         '        nextVerse { chapter verse }\n' +
+        '        previousChapter\n' +
+        '        nextChapter\n' +
         '      }\n' +
         '    }\n' +
         '  }\n' +
@@ -90,24 +93,40 @@ const BrowseVerse = withStyles(styles)((props) => {
                 <div>
                     {
                         'data' in result && 'docSet' in result.data && 'document' in result.data.docSet ?
-                            <BrowseVerseNavigation
-                                setSelectedChapter={setSelectedChapter}
-                                setSelectedVerse={setSelectedVerse}
-                                direction="previous"
-                                destination={result.data.docSet.document.nav.previousVerse}
-                            /> : ''
+                            <>
+                                <ChapterNavigation
+                                    setSelectedChapter={setSelectedChapter}
+                                    setSelectedVerse={setSelectedVerse}
+                                    direction="previous"
+                                    destination={result.data.docSet.document.nav.previousChapter}
+                                />
+                                <VerseNavigation
+                                    setSelectedChapter={setSelectedChapter}
+                                    setSelectedVerse={setSelectedVerse}
+                                    direction="previous"
+                                    destination={result.data.docSet.document.nav.previousVerse}
+                                />
+                            </> : ''
                     }
                     <Typography variant="body1" display="inline" className={classes.browseNavigationText}>
                         {`${selectedChapter || '-'}:${selectedVerse || '-'}`}
                     </Typography>
                     {
                         'data' in result && 'docSet' in result.data && 'document' in result.data.docSet ?
-                            <BrowseVerseNavigation
-                                setSelectedChapter={setSelectedChapter}
-                                setSelectedVerse={setSelectedVerse}
-                                direction="next"
-                                destination={result.data.docSet.document.nav.nextVerse}
-                            /> : ''
+                            <>
+                                <VerseNavigation
+                                    setSelectedChapter={setSelectedChapter}
+                                    setSelectedVerse={setSelectedVerse}
+                                    direction="next"
+                                    destination={result.data.docSet.document.nav.nextVerse}
+                                />
+                                <ChapterNavigation
+                                    setSelectedChapter={setSelectedChapter}
+                                    setSelectedVerse={setSelectedVerse}
+                                    direction="next"
+                                    destination={result.data.docSet.document.nav.nextChapter}
+                                />
+                            </> : ''
                     }
                 </div>
                 {

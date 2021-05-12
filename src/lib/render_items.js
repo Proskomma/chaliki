@@ -1,4 +1,12 @@
-const renderVersesItems = (items, renderChapters, currentVerse) =>
+const verseClick = (destination, sourceState, targetState, appState) => {
+    targetState.setSelectedDocSet(sourceState.selectedDocSet);
+    targetState.setSelectedBook(sourceState.selectedBook);
+    targetState.setSelectedChapter(sourceState.selectedChapter);
+    targetState.setSelectedVerse(destination);
+    appState.setUrl('browseVerse');
+};
+
+const renderVersesItems = (items, renderChapters, currentVerse, sourceState, targetState, appState) =>
     [...items.entries()]
         .filter(
             (i) =>
@@ -16,6 +24,14 @@ const renderVersesItems = (items, renderChapters, currentVerse) =>
                                 color: currentVerse && i[1].payload.split('/')[1] === currentVerse.toString() ? '#A00' : '#000',
                                 backgroundColor: currentVerse && i[1].payload.split('/')[1] === currentVerse.toString() ? '#FF0' : 'inherit'
                             }}
+                            onClick={() =>
+                                appState && verseClick(
+                                    i[1].payload.split('/')[1],
+                                    sourceState,
+                                    targetState,
+                                    appState,
+                                )
+                            }
                         >
                             {i[1].payload.split('/')[1]}
                         </b>,

@@ -6,6 +6,12 @@ const conf = {
   pageTitle: "Browse by Verse",
   description: "View Scripture verse by verse",
   pageClass: BrowseVerse,
+  state: [
+    ['selectedDocSet', null],
+    ['selectedBook', null],
+    ['selectedChapter', null],
+    ['selectedVerse', null],
+  ],
 };
 
 export default conf;

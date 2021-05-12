@@ -14,10 +14,6 @@ import VerseNavigation from "../../../sharedComponents/VerseNavigation";
 
 const BrowseVerseBlocks = withStyles(styles)((props) => {
     const {classes} = props;
-    const [selectedDocSet, setSelectedDocSet] = React.useState(null);
-    const [selectedBook, setSelectedBook] = React.useState(null);
-    const [selectedChapter, setSelectedChapter] = React.useState(null);
-    const [selectedVerse, setSelectedVerse] = React.useState(null);
     const [result, setResult] = React.useState({});
     const [query, setQuery] = React.useState('');
     const chapterQueryTemplate =
@@ -43,12 +39,12 @@ const BrowseVerseBlocks = withStyles(styles)((props) => {
 
     React.useEffect(() => {
         const doQuery = async () => {
-            if (selectedDocSet && selectedBook) {
+            if (props.browseVerseBlocks.selectedDocSet && props.browseVerseBlocks.selectedBook) {
                 const browseQuery = chapterQueryTemplate
-                    .replace(/%docSetId%/g, selectedDocSet)
-                    .replace(/%bookCode%/g, selectedBook)
-                    .replace(/%chapter%/g, selectedChapter)
-                    .replace(/%verse%/g, selectedVerse)
+                    .replace(/%docSetId%/g, props.browseVerseBlocks.selectedDocSet)
+                    .replace(/%bookCode%/g, props.browseVerseBlocks.selectedBook)
+                    .replace(/%chapter%/g, props.browseVerseBlocks.selectedChapter)
+                    .replace(/%verse%/g, props.browseVerseBlocks.selectedVerse)
                 setQuery(browseQuery);
                 const res = await props.pk.gqlQuery(browseQuery);
                 setResult(res);
@@ -56,24 +52,24 @@ const BrowseVerseBlocks = withStyles(styles)((props) => {
         };
         doQuery();
     }, [
-        selectedDocSet,
-        selectedBook,
-        selectedChapter,
-        selectedVerse,
+        props.browseVerseBlocks.selectedDocSet,
+        props.browseVerseBlocks.selectedBook,
+        props.browseVerseBlocks.selectedChapter,
+        props.browseVerseBlocks.selectedVerse,
     ]);
 
     React.useEffect(() => {
-        if (selectedDocSet) {
-            setSelectedBook(
+        if (props.browseVerseBlocks.selectedDocSet) {
+            props.browseVerseBlocks.selectedBook || props.browseVerseBlocks.setSelectedBook(
                 props.app.docSets
-                    .filter(ds => ds.id === selectedDocSet)[0]
+                    .filter(ds => ds.id === props.browseVerseBlocks.selectedDocSet)[0]
                     .documents[0]
                     .bookCode
             );
-            setSelectedChapter(1);
-            setSelectedVerse(1);
+            props.browseVerseBlocks.selectedChapter || props.browseVerseBlocks.setSelectedChapter(1);
+            props.browseVerseBlocks.selectedVerse || props.browseVerseBlocks.setSelectedVerse(1);
         }
-    }, [selectedDocSet]);
+    }, [props.browseVerseBlocks.selectedDocSet]);
 
     return (
         <>
@@ -81,15 +77,15 @@ const BrowseVerseBlocks = withStyles(styles)((props) => {
             <Container className={classes.page}>
                 <div>
                     <DocSetPicker
-                        selectedDocSet={selectedDocSet}
-                        setSelectedDocSet={setSelectedDocSet}
+                        selectedDocSet={props.browseVerseBlocks.selectedDocSet}
+                        setSelectedDocSet={props.browseVerseBlocks.setSelectedDocSet}
                         app={props.app}
                     />
-                    {props.app.docSets && selectedDocSet ?
+                    {props.app.docSets && props.browseVerseBlocks.selectedDocSet ?
                         <BookPicker
-                            selectedDocSet={selectedDocSet}
-                            selectedBook={selectedBook}
-                            setSelectedBook={setSelectedBook}
+                            selectedDocSet={props.browseVerseBlocks.selectedDocSet}
+                            selectedBook={props.browseVerseBlocks.selectedBook}
+                            setSelectedBook={props.browseVerseBlocks.setSelectedBook}
                             app={props.app}
                         /> :
                         <Typography variant="h5" display="inline" className={classes.requireInput}>Please Select a
@@ -102,34 +98,34 @@ const BrowseVerseBlocks = withStyles(styles)((props) => {
                         'data' in result && 'docSet' in result.data && 'document' in result.data.docSet && result.data.docSet.document ?
                             <>
                                 <ChapterNavigation
-                                    setSelectedChapter={setSelectedChapter}
-                                    setSelectedVerse={setSelectedVerse}
+                                    setSelectedChapter={props.browseVerseBlocks.setSelectedChapter}
+                                    setSelectedVerse={props.browseVerseBlocks.setSelectedVerse}
                                     direction="previous"
                                     destination={result.data.docSet.document.nav.previousChapter}
                                 />
                                 <VerseNavigation
-                                    setSelectedChapter={setSelectedChapter}
-                                    setSelectedVerse={setSelectedVerse}
+                                    setSelectedChapter={props.browseVerseBlocks.setSelectedChapter}
+                                    setSelectedVerse={props.browseVerseBlocks.setSelectedVerse}
                                     direction="previous"
                                     destination={result.data.docSet.document.nav.previousVerse}
                                 />
                             </> : ''
                     }
                     <Typography variant="body1" display="inline" className={classes.browseNavigationText}>
-                        {`${selectedChapter || '-'}:${selectedVerse || '-'}`}
+                        {`${props.browseVerseBlocks.selectedChapter || '-'}:${props.browseVerseBlocks.selectedVerse || '-'}`}
                     </Typography>
                     {
                         'data' in result && 'docSet' in result.data && 'document' in result.data.docSet && result.data.docSet.document ?
                             <>
                                 <VerseNavigation
-                                    setSelectedChapter={setSelectedChapter}
-                                    setSelectedVerse={setSelectedVerse}
+                                    setSelectedChapter={props.browseVerseBlocks.setSelectedChapter}
+                                    setSelectedVerse={props.browseVerseBlocks.setSelectedVerse}
                                     direction="next"
                                     destination={result.data.docSet.document.nav.nextVerse}
                                 />
                                 <ChapterNavigation
-                                    setSelectedChapter={setSelectedChapter}
-                                    setSelectedVerse={setSelectedVerse}
+                                    setSelectedChapter={props.browseVerseBlocks.setSelectedChapter}
+                                    setSelectedVerse={props.browseVerseBlocks.setSelectedVerse}
                                     direction="next"
                                     destination={result.data.docSet.document.nav.nextChapter}
                                 />
@@ -145,7 +141,10 @@ const BrowseVerseBlocks = withStyles(styles)((props) => {
                                     renderVersesItems(
                                         b[1].items,
                                         false,
-                                        selectedVerse,
+                                        props.browseVerseBlocks.selectedVerse,
+                                        props.browseVerseBlocks,
+                                        props.browseVerse,
+                                        props.app,
                                     )
                                 }
                             </Typography>

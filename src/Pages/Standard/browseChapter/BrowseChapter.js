@@ -9,13 +9,10 @@ import Container from "@material-ui/core/Container";
 import DocSetPicker from "../../../sharedComponents/DocSetPicker";
 import BookPicker from "../../../sharedComponents/BookPicker";
 import InspectQuery from "../../../sharedComponents/InspectQuery";
-import { renderVersesItems } from '../../../lib/render_items';
+import {renderVersesItems} from '../../../lib/render_items';
 
 const BrowseChapter = withStyles(styles)((props) => {
     const {classes} = props;
-    const [selectedDocSet, setSelectedDocSet] = React.useState(null);
-    const [selectedBook, setSelectedBook] = React.useState(null);
-    const [selectedChapter, setSelectedChapter] = React.useState(null);
     const [result, setResult] = React.useState({});
     const [query, setQuery] = React.useState('');
     const chapterQueryTemplate =
@@ -39,11 +36,11 @@ const BrowseChapter = withStyles(styles)((props) => {
 
     React.useEffect(() => {
         const doQuery = async () => {
-            if (selectedDocSet && selectedBook) {
+            if (props.browseChapter.selectedDocSet && props.browseChapter.selectedBook) {
                 const browseQuery = chapterQueryTemplate
-                    .replace(/%docSetId%/g, selectedDocSet)
-                    .replace(/%bookCode%/g, selectedBook)
-                    .replace(/%chapter%/g, selectedChapter)
+                    .replace(/%docSetId%/g, props.browseChapter.selectedDocSet)
+                    .replace(/%bookCode%/g, props.browseChapter.selectedBook)
+                    .replace(/%chapter%/g, props.browseChapter.selectedChapter)
                 setQuery(browseQuery);
                 const res = await props.pk.gqlQuery(browseQuery);
                 setResult(res);
@@ -51,22 +48,22 @@ const BrowseChapter = withStyles(styles)((props) => {
         };
         doQuery();
     }, [
-        selectedDocSet,
-        selectedBook,
-        selectedChapter,
+        props.browseChapter.selectedDocSet,
+        props.browseChapter.selectedBook,
+        props.browseChapter.selectedChapter,
     ]);
 
     React.useEffect(() => {
-        if (selectedDocSet) {
-            setSelectedBook(
+        if (props.browseChapter.selectedDocSet) {
+            props.browseChapter.selectedBook || props.browseChapter.setSelectedBook(
                 props.app.docSets
-                    .filter(ds => ds.id === selectedDocSet)[0]
+                    .filter(ds => ds.id === props.browseChapter.selectedDocSet)[0]
                     .documents[0]
                     .bookCode
             );
-            setSelectedChapter(1);
+            props.browseChapter.selectedChapter || props.browseChapter.setSelectedChapter(1);
         }
-    }, [selectedDocSet]);
+    }, [props.browseChapter.selectedDocSet]);
 
     return (
         <>
@@ -74,15 +71,15 @@ const BrowseChapter = withStyles(styles)((props) => {
             <Container className={classes.page}>
                 <div>
                     <DocSetPicker
-                        selectedDocSet={selectedDocSet}
-                        setSelectedDocSet={setSelectedDocSet}
+                        selectedDocSet={props.browseChapter.selectedDocSet}
+                        setSelectedDocSet={props.browseChapter.setSelectedDocSet}
                         app={props.app}
                     />
-                    {props.app.docSets && selectedDocSet ?
+                    {props.app.docSets && props.browseChapter.selectedDocSet ?
                         <BookPicker
-                            selectedDocSet={selectedDocSet}
-                            selectedBook={selectedBook}
-                            setSelectedBook={setSelectedBook}
+                            selectedDocSet={props.browseChapter.selectedDocSet}
+                            selectedBook={props.browseChapter.selectedBook}
+                            setSelectedBook={props.browseChapter.setSelectedBook}
                             app={props.app}
                         /> :
                         <Typography variant="h5" display="inline" className={classes.requireInput}>Please Select a
@@ -94,18 +91,18 @@ const BrowseChapter = withStyles(styles)((props) => {
                     {
                         'data' in result && 'docSet' in result.data && 'document' in result.data.docSet && result.data.docSet.document ?
                             <ChapterNavigation
-                                setSelectedChapter={setSelectedChapter}
+                                setSelectedChapter={props.browseChapter.setSelectedChapter}
                                 direction="previous"
                                 destination={result.data.docSet.document.nav.previousChapter}
                             /> : ''
                     }
                     <Typography variant="body1" display="inline" className={classes.browseNavigationText}>
-                        {selectedChapter || '-'}
+                        {props.browseChapter.selectedChapter || '-'}
                     </Typography>
                     {
                         'data' in result && 'docSet' in result.data && 'document' in result.data.docSet && result.data.docSet.document ?
                             <ChapterNavigation
-                                setSelectedChapter={setSelectedChapter}
+                                setSelectedChapter={props.browseChapter.setSelectedChapter}
                                 direction="next"
                                 destination={result.data.docSet.document.nav.nextChapter}
                             /> : ''
@@ -114,16 +111,22 @@ const BrowseChapter = withStyles(styles)((props) => {
                 {
                     'data' in result && 'docSet' in result.data && 'document' in result.data.docSet && result.data.docSet.document ?
                         [...result.data.docSet.document.mainSequence.blocks.entries()].map(
-                    b => <Typography key={b[0]} variant="body1" className={classes[`usfm_${b[1].bs.payload.split('/')[1]}`]}>
-                {
-                    renderVersesItems(
-                    b[1].items,
-                    )
-                }
-                    </Typography>
-                    ) : (
-                        <Typography variant="body1">No Results</Typography>
-                    )
+                            b => <Typography key={b[0]} variant="body1"
+                                             className={classes[`usfm_${b[1].bs.payload.split('/')[1]}`]}>
+                                {
+                                    renderVersesItems(
+                                        b[1].items,
+                                        null,
+                                        null,
+                                        props.browseChapter,
+                                        props.browseVerse,
+                                        props.app,
+                                    )
+                                }
+                            </Typography>
+                        ) : (
+                            <Typography variant="body1">No Results</Typography>
+                        )
                 }
             </Container>
         </>

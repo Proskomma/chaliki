@@ -272,12 +272,9 @@ const Search = withStyles(styles)((props) => {
                                     button
                                     dense
                                     onClick={() => {
-                                        props.state.selectedDocument.set(mr[1][0]);
-                                        props.state.selectedBook.set(mr[1][1]);
-                                        props.state.selectedChapter.set(mr[1][3][0]);
-                                        props.state.selectedVerse.set(`${Math.min(...mr[1][4])}`);
-                                        props.state.tabN.set(1);
-                                        props.state.renderMode.set('blocks');
+                                        props.browseChapter.setSelectedBook(mr[1][1]);
+                                        props.browseChapter.setSelectedChapter(mr[1][3][0]);
+                                        props.app.setUrl('browseChapter');
                                     }}
                                 >
                                     <ListItemText

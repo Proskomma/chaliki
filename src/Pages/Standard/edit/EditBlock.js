@@ -178,7 +178,7 @@ const EditBlock = withStyles(styles)((props) => {
             size="small"
             onClick={() => {
               setEditorContent(
-                items2slate(result.data.docSet.document.mainSequence.blocks[0].items)
+                items2slate(result.data.docSet.document.mainSequence.blocks[0].items)[0]
               );
               setEditsUnsaved(false);
             }}

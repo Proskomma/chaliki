@@ -12,8 +12,6 @@ const Edit = withStyles(styles)((props) => {
     const {classes} = props;
     const [selectedDocSet, setSelectedDocSet] = React.useState(null);
     const [selectedBook, setSelectedBook] = React.useState(null);
-    const [selectedChapter, setSelectedChapter] = React.useState(null);
-    const [selectedVerse, setSelectedVerse] = React.useState(null);
     const [result, setResult] = React.useState({});
     const browseQueryTemplate =
         '{\n' +

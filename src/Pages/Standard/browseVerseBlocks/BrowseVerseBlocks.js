@@ -11,6 +11,7 @@ import BookPicker from "../../../sharedComponents/BookPicker";
 import InspectQuery from "../../../sharedComponents/InspectQuery";
 import {renderVersesItems} from '../../../lib/render_items';
 import VerseNavigation from "../../../sharedComponents/VerseNavigation";
+import BrowseModeButton from "../../../sharedComponents/BrowseModeButton";
 
 const BrowseVerseBlocks = withStyles(styles)((props) => {
     const {classes} = props;
@@ -47,6 +48,7 @@ const BrowseVerseBlocks = withStyles(styles)((props) => {
                     .replace(/%verse%/g, props.browseVerseBlocks.selectedVerse)
                 setQuery(browseQuery);
                 const res = await props.pk.gqlQuery(browseQuery);
+                console.log(JSON.stringify(res, null, 2));
                 setResult(res);
             }
         };
@@ -92,6 +94,25 @@ const BrowseVerseBlocks = withStyles(styles)((props) => {
                             DocSet</Typography>
                     }
                     <InspectQuery app={props.app} raw={props.raw} query={query}/>
+                    <BrowseModeButton
+                        label="Browse Chapter"
+                        url="browseChapter"
+                        app={props.app}
+                        targetState={props.browseChapter}
+                        selectedDocSet={props.browseVerseBlocks.selectedDocSet}
+                        selectedBook={props.browseVerseBlocks.selectedBook}
+                        selectedChapter={props.browseVerseBlocks.selectedChapter}
+                    />
+                    <BrowseModeButton
+                        label="Browse Verse"
+                        url="browseVerse"
+                        app={props.app}
+                        targetState={props.browseVerse}
+                        selectedDocSet={props.browseVerseBlocks.selectedDocSet}
+                        selectedBook={props.browseVerseBlocks.selectedBook}
+                        selectedChapter={props.browseVerseBlocks.selectedChapter}
+                        selectedVerse={props.browseVerseBlocks.selectedVerse}
+                    />
                 </div>
                 <div>
                     {

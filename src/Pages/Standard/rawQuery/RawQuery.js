@@ -54,7 +54,14 @@ const RawQuery = withStyles(styles)((props) => {
                         )}
                     </div>
                     <Typography variant="body2" className={classes.pre}>
-                        {JSON.stringify(result, null, 4)}
+                        {JSON.stringify(
+                            result,
+                            (key, value) =>
+                                key === 'items' ?
+                                    value.map(v => JSON.stringify(v).replace(/"/g, "'")) :
+                                    value,
+                            4)
+                        }
                     </Typography>
                 </Container>
             )}

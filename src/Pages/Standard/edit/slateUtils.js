@@ -159,7 +159,6 @@ const items2slate = (items) => {  // Ignoring grafts, spanWithAtts, milestones a
 const slate2items = (slate, toClose) => {
     const ret = [];
     let verses = null;
-    let chapter = null;
     const printableRegexes = [ // Missing some obscure options!
         ['wordLike', xre('([\\p{Letter}\\p{Number}\\p{Mark}\\u2060]{1,127})')],
         ['lineSpace', xre('([\\p{Separator}]{1,127})')],
@@ -237,7 +236,6 @@ const slate2items = (slate, toClose) => {
     }
     const processChapter = child => { // To do this properly we need to look at open scopes
         openChapter(ret, child.elementText);
-        chapter = child.elementText;
     }
     const processVerses = child => {
         if (verses) {

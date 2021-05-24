@@ -63,7 +63,7 @@ const BrowseChapter = withStyles(styles)((props) => {
             );
             props.browseChapter.selectedChapter || props.browseChapter.setSelectedChapter(1);
         }
-    }, [props.browseChapter.selectedDocSet]);
+    }, [props.browseChapter.selectedDocSet, props.browseChapter.selectedChapter]);
 
     return (
         <>
@@ -80,6 +80,8 @@ const BrowseChapter = withStyles(styles)((props) => {
                             selectedDocSet={props.browseChapter.selectedDocSet}
                             selectedBook={props.browseChapter.selectedBook}
                             setSelectedBook={props.browseChapter.setSelectedBook}
+                            setSelectedChapter={props.browseChapter.setSelectedChapter}
+                            setSelectedVerse={props.browseChapter.setSelectedVerse}
                             app={props.app}
                         /> :
                         <Typography variant="h5" display="inline" className={classes.requireInput}>Please Select a

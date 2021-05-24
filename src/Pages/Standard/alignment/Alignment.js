@@ -103,6 +103,8 @@ const Alignment = withStyles(styles)((props) => {
                     selectedDocSet="unfoldingWord/hbo_uhb"
                     selectedBook={selectedBook}
                     setSelectedBook={setSelectedBook}
+                    setSelectedChapter={setSelectedChapter}
+                    setSelectedVerse={setSelectedVerse}
                     app={props.app}
                 />
                 <InspectQuery app={props.app} raw={props.raw} query={query}/>

@@ -84,6 +84,8 @@ const Mapping = withStyles(styles)((props) => {
                         selectedDocSet="ebible/en_web"
                         selectedBook={selectedBook}
                         setSelectedBook={setSelectedBook}
+                        setSelectedChapter={setSelectedChapter}
+                        setSelectedVerse={setSelectedVerse}
                         app={props.app}
                     />
                     <InspectQuery app={props.app} raw={props.raw} query={query}/>

@@ -80,6 +80,8 @@ const BrowseVerse = withStyles(styles)((props) => {
                             selectedDocSet={props.browseVerse.selectedDocSet}
                             selectedBook={props.browseVerse.selectedBook}
                             setSelectedBook={props.browseVerse.setSelectedBook}
+                            setSelectedChapter={props.browseVerse.setSelectedChapter}
+                            setSelectedVerse={props.browseVerse.setSelectedVerse}
                             app={props.app}
                         /> :
                         <Typography variant="h5" display="inline" className={classes.requireInput}>Please Select a

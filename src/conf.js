@@ -21,7 +21,7 @@ const pagesArray = [
     editConf,
     mappingConf,
     rawConf,
-    aboutConf
+    aboutConf,
 ];
 let pages = {};
 let stateSpec = {};

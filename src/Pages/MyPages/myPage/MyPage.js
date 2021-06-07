@@ -1,7 +1,6 @@
 import React from 'react';
 
 const MyPage = (props) => {
-    const {classes} = props;
     const [result, setResult] = React.useState({});
     const aboutQuery = '{id}\n';
     React.useEffect(() => {

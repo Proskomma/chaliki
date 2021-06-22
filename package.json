@@ -20,18 +20,15 @@
     "react-scripts": "^4.0.3",
     "slate": "^0.62.1",
     "slate-react": "^0.62.1",
-    "uw-proskomma": "^0.4.20",
+    "uw-proskomma": "^0.4.23",
     "xregexp": "^5.0.2"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "storybook": "start-storybook -p 6006 -s public",
-
     "windows_1": "concurrently \"yarn react-start\" \"wait-on http://localhost:3000/",
     "windows_2": "cross-env NODE_ENV=development yarn electron-start\"",
-
     "start": "concurrently \"yarn react-start\" \"wait-on http://localhost:3000/ && cross-env NODE_ENV=development yarn electron-start\"",
-
     "build": "yarn react-build && yarn build-main && copyfiles package.json build/ && yarn electron-build",
     "electron-start": "electronite .",
     "electron-build": "electronite-packager ./build --out=dist",

@@ -13,6 +13,8 @@ const BookPicker = withStyles(styles)((props) => {
     const changeSelectedBook = (e) => {
         const newBook = e.target.value;
         props.setSelectedBook(newBook);
+        props.setSelectedChapter && props.setSelectedChapter(1);
+        props.setSelectedVerse && props.setSelectedVerse(1);
     };
 
     return (

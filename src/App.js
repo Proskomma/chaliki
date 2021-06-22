@@ -9,7 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
-import {UWProskomma} from 'uw-proskomma';
+import { UWProskomma } from 'uw-proskomma';
+
 import './App.css';
 
 import {pages, pagesArray, stateSpec} from './conf.js';

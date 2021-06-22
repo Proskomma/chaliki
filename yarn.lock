@@ -12196,10 +12196,10 @@ property-information@^5.0.0, property-information@^5.3.0:
   dependencies:
     xtend "^4.0.0"
 
-proskomma-utils@^0.4.16:
-  version "0.4.16"
-  resolved "https://registry.yarnpkg.com/proskomma-utils/-/proskomma-utils-0.4.16.tgz#0287f528cacd364be2dd9689d617af00924f9f92"
-  integrity sha512-83BwYibRVjOgYo9whvmrJHx7AcTMk9H4YbCjwa6GAfGJk6n7yaL67TB9ZX3l6aM2Ddd4dbQP1R//XHNH7kQwcA==
+proskomma-utils@^0.4.17:
+  version "0.4.17"
+  resolved "https://registry.yarnpkg.com/proskomma-utils/-/proskomma-utils-0.4.17.tgz#46eae6d91185a84adba5ee3b705f2a1b30ef36ef"
+  integrity sha512-2tgltkmidR3OROCYMfqbN4fZXFEwpNCfz6jm8AqDwC0uyreEEDuYG3WHyFXKNFmNk+o9zxZJnWLay0xWABy17A==
   dependencies:
     "@babel/core" "^7.12.9"
     base64-js "^1.5.1"
@@ -12211,20 +12211,21 @@ proskomma-utils@^0.4.16:
     uuid-base64 "^1.0.0"
     xregexp "^4.4.1"
 
-proskomma@^0.4.33:
-  version "0.4.33"
-  resolved "https://registry.yarnpkg.com/proskomma/-/proskomma-0.4.33.tgz#ace10eaad733d6a2d79dd0a89c5a713e2edc0880"
-  integrity sha512-TY3c7rb4rJK1xPcPafTpE+fbm/Vxe65/Qbf9b70g62imFAuSl0mbYNusJWjPQzPPvNcGZwkgEesN31+lYgcjfw==
+proskomma@^0.4.36:
+  version "0.4.36"
+  resolved "https://registry.yarnpkg.com/proskomma/-/proskomma-0.4.36.tgz#343e6cab7dedccb24541edbf0f4ba28e6b8bc987"
+  integrity sha512-yYzUcgFogrcWeZfhmN9hND4WpSv5dgMAjFleQuWZY803jnuPmxi3ZTPNGowGjoZAXEEEgZQUtRDKDq1DnVY8zw==
   dependencies:
     "@babel/core" "^7.12.9"
     async-mutex "^0.2.6"
     base64-js "^1.3.1"
     bitset "^5.1.1"
     deep-copy-all "^1.3.4"
+    deep-equal "^2.0.5"
     git-diff "^2.0.6"
     graphql "^15.3.0"
     jsonschema "^1.4.0"
-    proskomma-utils "^0.4.16"
+    proskomma-utils "^0.4.17"
     sax "^1.2.4"
     utf8-string-bytes "^1.0.3"
     uuid-base64 "^1.0.0"
@@ -15192,15 +15193,15 @@ uuid@^8.3.0, uuid@^8.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
-uw-proskomma@^0.4.20:
-  version "0.4.20"
-  resolved "https://registry.yarnpkg.com/uw-proskomma/-/uw-proskomma-0.4.20.tgz#d7daa3e63cf7147039e56ca7c1fc5ab81ec5ccb3"
-  integrity sha512-J6fkE9GJp6ftwDtG/NVg+0HRuMf1XNLNpTKhpmuaOxfH69vKNRhvLkX4OjZyXXvi/wTmElJrnEZJyt/d5E3UOw==
+uw-proskomma@^0.4.23:
+  version "0.4.23"
+  resolved "https://registry.yarnpkg.com/uw-proskomma/-/uw-proskomma-0.4.23.tgz#a5b1e52867f9bc079d456868ede104d2ea4e1a18"
+  integrity sha512-Zb5gMPsbcrjpPVSPOBwFHfKV03zoBI6JK2qQggX9jyV31hmxJor6jD8tP19Wumq+jq1QTGoB5WfVJS4FqxVVxg==
   dependencies:
     d3-dsv "^2.0.0"
     deepcopy "^2.1.0"
     path "^0.12.7"
-    proskomma "^0.4.33"
+    proskomma "^0.4.36"
     xregexp "^4.3.0"
 
 v8-compile-cache@^2.0.3, v8-compile-cache@^2.2.0:

@@ -1,8 +1,7 @@
 import React from 'react';
-
+import { useProskomma } from 'proskomma-react-hooks';
 import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-
 import styles from '../../../global_styles';
 import VerseNavigation from '../../../sharedComponents/VerseNavigation';
 import Container from "@material-ui/core/Container";
@@ -69,7 +68,7 @@ const BrowseVerse = withStyles(styles)((props) => {
         <>
             <div className={classes.toolbarMargin}/>
             <Container className={classes.page}>
-                <div>
+                <div> 
                     <DocSetPicker
                         selectedDocSet={props.browseVerse.selectedDocSet}
                         setSelectedDocSet={props.browseVerse.setSelectedDocSet}

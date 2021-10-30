@@ -10,7 +10,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 import { UWProskomma } from 'uw-proskomma';
-
+import { useProskomma } from 'proskomma-react-hooks';
+import {_documents} from '../src/dataUsfm'
 import './App.css';
 
 import {pages, pagesArray, stateSpec} from './conf.js';
@@ -29,6 +30,8 @@ const translationSources = [
     './data/dbl_en_gnv_pkserialized.json',
 ].map((ts) => path.resolve(ts));
 
+
+
 for (const [docSetId, vrsSource] of [
     ['ebible/en_web', 'data/web.vrs'],
     ['dbl/en_drh', 'data/drh.vrs'],
@@ -42,6 +45,11 @@ const styles = theme => ({});
 
 const App = withStyles(styles)(props => {
     const {classes} = props;
+    const {
+        stateId, proskomma, documents
+      } = useProskomma({
+        documents: _documents, serialize: false, verbose: true,
+      }); 
     const [menuAnchor, setMenuAnchor] = useState(null);
     [sharedState.app.url, sharedState.app.setUrl] = useState('data');
     [sharedState.app.docSets, sharedState.app.setDocSets] = useState([]);
@@ -53,11 +61,12 @@ const App = withStyles(styles)(props => {
         }
     }
 
+
     const clearAnchor = () => setMenuAnchor(null);
 
     const pageBody = () => {
         const page = pages[sharedState.app.url] || pages.data;
-        return <page.pageClass pk={pk} {...sharedState}/>;
+        return <page.pageClass pk={pk} proskomma={proskomma} stateId={stateId} {...sharedState}/>;
     }
 
     useEffect(() => {

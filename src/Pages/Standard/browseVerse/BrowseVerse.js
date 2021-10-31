@@ -1,5 +1,5 @@
 import React from 'react';
-import { useProskomma } from 'proskomma-react-hooks';
+import { useQuery } from 'proskomma-react-hooks';
 import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import styles from '../../../global_styles';
@@ -15,9 +15,10 @@ const BrowseVerse = withStyles(styles)((props) => {
     const {classes} = props;
     const [result, setResult] = React.useState({});
     const [query, setQuery] = React.useState('');
+
     const verseQueryTemplate =
         '{\n' +
-        '  docSet(id:"%docSetId%") {\n' +
+        '  docSet(id:"unfoldingWord/en_ult") {\n' +
         '    document(bookCode: "%bookCode%") {\n' +
         '      title: header(id: "toc2")\n' +
         '      cv (chapter:"%chapter%" verses:["%verse%"]) { text }\n' +
@@ -30,6 +31,16 @@ const BrowseVerse = withStyles(styles)((props) => {
         '    }\n' +
         '  }\n' +
         '}';
+
+
+        const proskomma = props.proskomma;
+        const stateId = props.stateId;
+        const { queryStateId, query: queryRun, data } = useQuery({
+            proskomma,
+            stateId,
+            query,
+          });
+
     React.useEffect(() => {
         const doQuery = async () => {
             if (props.browseVerse.selectedDocSet && props.browseVerse.selectedBook) {
@@ -39,8 +50,9 @@ const BrowseVerse = withStyles(styles)((props) => {
                     .replace(/%chapter%/g, props.browseVerse.selectedChapter)
                     .replace(/%verse%/g, props.browseVerse.selectedVerse);
                 setQuery(verseQuery);
-                const res = await props.pk.gqlQuery(verseQuery);
-                setResult(res);
+                // const res = await props.pk.gqlQuery(verseQuery);
+                setResult(data);
+                console.log("result query verse" + JSON.stringify(result))
             }
         };
         doQuery();
@@ -49,20 +61,23 @@ const BrowseVerse = withStyles(styles)((props) => {
         props.browseVerse.selectedBook,
         props.browseVerse.selectedChapter,
         props.browseVerse.selectedVerse,
+        data
     ]);
 
-    React.useEffect(() => {
-        if (props.browseVerse.selectedDocSet) {
-            props.browseVerse.selectedBook || props.browseVerse.setSelectedBook(
-                props.app.docSets
-                    .filter(ds => ds.id === props.browseVerse.selectedDocSet)[0]
-                    .documents[0]
-                    .bookCode
-            );
-            props.browseVerse.selectedChapter || props.browseVerse.setSelectedChapter(1);
-            props.browseVerse.selectedVerse || props.browseVerse.setSelectedVerse(1);
-        }
-    }, [props.browseVerse.selectedDocSet]);
+
+
+    // React.useEffect(() => {
+    //     if (props.browseVerse.selectedDocSet) {
+    //         props.browseVerse.selectedBook || props.browseVerse.setSelectedBook(
+    //             props.app.docSets
+    //                 .filter(ds => ds.id === props.browseVerse.selectedDocSet)[0]
+    //                 .documents[0]
+    //                 .bookCode
+    //         );
+    //         props.browseVerse.selectedChapter || props.browseVerse.setSelectedChapter(1);
+    //         props.browseVerse.selectedVerse || props.browseVerse.setSelectedVerse(1);
+    //     }
+    // }, [props.browseVerse.selectedDocSet]);
 
     return (
         <>
@@ -109,51 +124,50 @@ const BrowseVerse = withStyles(styles)((props) => {
                 </div>
                 <div>
                     {
-                        'data' in result && 'docSet' in result.data && 'document' in result.data.docSet ?
-                            <>
+                         result ? result.docSet ? result.docSet.document?
+                            (<>
                                 <ChapterNavigation
                                     setSelectedChapter={props.browseVerse.setSelectedChapter}
                                     setSelectedVerse={props.browseVerse.setSelectedVerse}
                                     direction="previous"
-                                    destination={result.data.docSet.document.nav.previousChapter}
+                                    destination={result.docSet.document.nav.previousChapter}
                                 />
                                 <VerseNavigation
                                     setSelectedChapter={props.browseVerse.setSelectedChapter}
                                     setSelectedVerse={props.browseVerse.setSelectedVerse}
                                     direction="previous"
-                                    destination={result.data.docSet.document.nav.previousVerse}
+                                    destination={result.docSet.document.nav.previousVerse}
                                 />
-                            </> : ''
-                    }
+                            
+                    
                     <Typography variant="body1" display="inline" className={classes.browseNavigationText}>
                         {`${props.browseVerse.selectedChapter || '-'}:${props.browseVerse.selectedVerse || '-'}`}
                     </Typography>
-                    {
-                        'data' in result && 'docSet' in result.data && 'document' in result.data.docSet ?
-                            <>
+                    
+                         
                                 <VerseNavigation
                                     setSelectedChapter={props.browseVerse.setSelectedChapter}
                                     setSelectedVerse={props.browseVerse.setSelectedVerse}
                                     direction="next"
-                                    destination={result.data.docSet.document.nav.nextVerse}
+                                    destination={result.docSet.document.nav.nextVerse}
                                 />
                                 <ChapterNavigation
                                     setSelectedChapter={props.browseVerse.setSelectedChapter}
                                     setSelectedVerse={props.browseVerse.setSelectedVerse}
                                     direction="next"
-                                    destination={result.data.docSet.document.nav.nextChapter}
+                                    destination={result.docSet.document.nav.nextChapter}
                                 />
-                            </> : ''
+                            </>) : '' : '' : ''
                     }
                 </div>
                 {
-                    'data' in result && 'docSet' in result.data && 'document' in result.data.docSet && 'cv' in result.data.docSet.document ? (
-                        <Typography variant="body1">
-                            {result.data.docSet.document.cv[0].text}
+                         result ? result.docSet ? result.docSet.document ? (
+                         <Typography variant="body1">
+                            {result.docSet.document.cv[0].text}
                         </Typography>
-                    ) : (
+                    ) : " " : (
                         <Typography variant="body1">No Results</Typography>
-                    )
+                    ): " "
                 }
             </Container>
         </>
